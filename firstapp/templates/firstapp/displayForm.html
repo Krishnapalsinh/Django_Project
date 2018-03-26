@@ -5,8 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-
-    FORM WILL BE DISPLAYED HERE
+<form action="{% url 'form_details' %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Done!"/>
+</form>
 
 </body>
 </html>
