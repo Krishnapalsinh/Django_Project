@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 
 # Create your views here.
 def index(req):
-    return HttpResponse(req,"Hello World!")
+    return render(req, 'index.html')
+
+
+def displayForm(req):
+    return render(req, "displayForm.html")
