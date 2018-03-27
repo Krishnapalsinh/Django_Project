@@ -1,5 +1,8 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.datastructures import MultiValueDictKeyError
 
+from .models import Student
 from .student_form import StudentForm
 
 
@@ -7,14 +10,17 @@ from .student_form import StudentForm
 def index(req):
     return render(req, 'index.html')
 
-
 def displayForm(req):
     context = {'form': StudentForm}
     return render(req, "displayForm.html", context)
 
 
 def showDetails(req):
-    name = req.POST['name']
-    roll = req.POST['roll']
-    context = {'name': name, 'roll': roll}
+    context = {}
+    try:
+        Student.objects.create(name=req.POST['sname'], roll=req.POST['roll'])
+    except :
+        context["error"] = 'mulval'
+        return HttpResponseRedirect("/home")
+    context['students'] = Student.objects.all()
     return render(req, 'showDetails.html', context)

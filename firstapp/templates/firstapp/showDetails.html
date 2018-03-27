@@ -5,8 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-    {{name}}
-    {{roll}}
+{% if error %}
+<!--<script type="text/javascript">-->
+
+<!--alert("No more Values!")-->
+
+<!--</script>-->
+{% endif %}
+
+{% for student in students %}
+{{student.id}}{{student.name}}{{student.roll}}
+{% endfor %}
 
 </body>
 </html>
