@@ -2,20 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>All Students</title>
 </head>
 <body>
-{% if error %}
-<!--<script type="text/javascript">-->
 
-<!--alert("No more Values!")-->
-
-<!--</script>-->
-{% endif %}
-
-{% for student in students %}
-{{student.id}}{{student.name}}{{student.roll}}
-{% endfor %}
+<table cellspacing="10">
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>ROLL</td>
+        <td>OPERATIONS</td>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{student.id}}</td>
+        <td>{{student.name}}</td>
+        <td>{{student.roll}}</td>
+        <td>
+            <form method="POST" action="{% url 'operations' %}">
+                {% csrf_token %}
+                <input type="hidden" value={{student.id}} name="id">
+                <input type="submit" value="EDIT" name="btnEdit"/>
+                <input type="submit" value="DELETE" name="btnDelete"/>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
 </body>
 </html>
