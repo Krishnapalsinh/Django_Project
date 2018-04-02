@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from .models import Student
@@ -17,7 +17,7 @@ def displayForm(req):
 
 def ins_data(req):
     Student.objects.create(name=req.POST['sname'], roll=req.POST['roll'])
-    return HttpResponse("Inserted Successfully!")
+    return HttpResponseRedirect("/home/details/")
 
 
 def show_data(req):
@@ -30,7 +30,19 @@ def perform_operations(req):
     if req.POST.get("btnDelete"):
         s = Student.objects.get(id=id)
         s.delete()
-        return HttpResponseRedirect("/home/Details")
-    elif req.POST.get("bnUpdate"):
-        pass
+        return HttpResponseRedirect("/home/details/")
+    elif req.POST.get("btnEdit"):
+        s = Student.objects.get(id=id)
+        context = {'form': StudentForm(initial={'sname': s.name, 'roll': s.roll}), 'id': id}
+        return render(req, 'update.html', context)
 
+
+def update_record(req):
+    name = req.POST.get('sname')
+    roll = req.POST.get('roll')
+    id = req.POST.get('id')
+    s = Student.objects.get(id=id)
+    s.name = name
+    s.roll = roll
+    s.save()
+    return HttpResponseRedirect("/home/details/")
